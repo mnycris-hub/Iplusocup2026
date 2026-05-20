@@ -10,6 +10,11 @@ export function RegistrationSection() {
     course: "",
     contact: "",
     teamName: "",
+    player1: "",
+    player2: "",
+    player3: "",
+    player4: "",
+    player5: "",
     registrationType: "individual",
   });
   const [submitted, setSubmitted] = useState(false);
@@ -26,6 +31,11 @@ export function RegistrationSection() {
         course: "",
         contact: "",
         teamName: "",
+        player1: "",
+        player2: "",
+        player3: "",
+        player4: "",
+        player5: "",
         registrationType: "individual",
       });
     }, 3000);
@@ -173,20 +183,43 @@ export function RegistrationSection() {
 
                 {/* Nome da Equipa (conditional) */}
                 {formData.registrationType === "team" && (
-                  <div>
-                    <label htmlFor="teamName" className="block text-sm font-semibold text-gray-700 mb-2">
-                      Nome da Equipa *
-                    </label>
-                    <input
-                      type="text"
-                      id="teamName"
-                      name="teamName"
-                      required={formData.registrationType === "team"}
-                      value={formData.teamName}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#D90429] focus:ring-4 focus:ring-[#D90429]/20 outline-none transition-all duration-200"
-                      placeholder="Nome criativo da equipa"
-                    />
+                  <div className="space-y-6">
+                    <div>
+                      <label htmlFor="teamName" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Nome da Equipa *
+                      </label>
+                      <input
+                        type="text"
+                        id="teamName"
+                        name="teamName"
+                        required={formData.registrationType === "team"}
+                        value={formData.teamName}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#D90429] focus:ring-4 focus:ring-[#D90429]/20 outline-none transition-all duration-200"
+                        placeholder="Nome criativo da equipa"
+                      />
+                    </div>
+
+                    <div>
+                      <p className="block text-sm font-semibold text-gray-700 mb-3">
+                        Nome dos 5 Jogadores *
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {[1, 2, 3, 4, 5].map((playerNumber) => (
+                          <input
+                            key={playerNumber}
+                            type="text"
+                            id={`player${playerNumber}`}
+                            name={`player${playerNumber}`}
+                            required={formData.registrationType === "team"}
+                            value={formData[`player${playerNumber}` as keyof typeof formData]}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#D90429] focus:ring-4 focus:ring-[#D90429]/20 outline-none transition-all duration-200"
+                            placeholder={`Jogador ${playerNumber}`}
+                          />
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 )}
 
