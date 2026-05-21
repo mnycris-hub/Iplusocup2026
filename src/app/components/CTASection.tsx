@@ -19,7 +19,7 @@ export function CTASection() {
   };
 
   return (
-    <section className="relative py-32 overflow-hidden" ref={ref}>
+    <section className="relative py-20 sm:py-32 overflow-hidden" ref={ref}>
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <img
@@ -45,22 +45,30 @@ export function CTASection() {
             </span>
           </h2>
 
-          <p className="text-xl sm:text-2xl text-white/90 max-w-3xl mx-auto mb-12 leading-relaxed">
+          <p className="hidden sm:block text-xl sm:text-2xl text-white/90 max-w-3xl mx-auto mb-12 leading-relaxed">
             Representa o teu curso, junta a tua equipa e faz parte da IPLUSO CUP 2026.
           </p>
+          <div className="block sm:hidden mb-8"></div>
 
-          <motion.button
-            onClick={() => scrollToSection("registration")}
-            initial={{ scale: 1 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-12 py-5 bg-white text-[#D90429] font-black text-xl rounded-xl hover:shadow-[0_0_50px_rgba(255,255,255,0.5)] transition-all duration-300 inline-block"
-          >
-            INSCREVER AGORA
-          </motion.button>
+          <motion.div style={{ perspective: "1000px" }} className="inline-block">
+            <motion.button
+              onClick={() => scrollToSection("registration")}
+              initial={{ rotateX: -15, opacity: 0 }}
+              animate={isInView ? { rotateX: 0, opacity: 1 } : {}}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              whileHover={{ scale: 1.1, rotateY: 5, z: 50 }}
+              whileTap={{ scale: 0.95 }}
+              style={{ transformStyle: "preserve-3d" }}
+              className="px-8 sm:px-12 py-4 sm:py-5 bg-white text-[#D90429] font-black text-lg sm:text-xl rounded-xl shadow-[0_0_50px_rgba(255,255,255,0.5)] transition-all duration-300"
+            >
+              <motion.span style={{ transform: "translateZ(20px)", display: "inline-block" }}>
+                INSCREVER AGORA
+              </motion.span>
+            </motion.button>
+          </motion.div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-12 sm:mt-16">
             {[
               { value: "5x5", label: "Formato" },
               { value: "5 JUN", label: "Data" },
@@ -72,10 +80,10 @@ export function CTASection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.1 + 0.3 }}
-                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6"
+                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 sm:p-6"
               >
-                <div className="text-3xl sm:text-4xl font-black text-white mb-1">{stat.value}</div>
-                <div className="text-sm text-white/70 uppercase tracking-wider font-semibold">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-1">{stat.value}</div>
+                <div className="text-xs sm:text-sm text-white/70 uppercase tracking-wider font-semibold">
                   {stat.label}
                 </div>
               </motion.div>

@@ -1,6 +1,45 @@
+import { useRef } from "react";
 import { MapPin, Calendar, Clock, Users, FileText, Ticket, Play, PartyPopper } from "lucide-react";
 import { motion } from "motion/react";
 import { useInView } from "./hooks/useInView";
+import { useTilt } from "../hooks/useTilt";
+
+function InfoCard({ item, index, isInView }: { item: any; index: number; isInView: boolean }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const { rotateX, rotateY } = useTilt(cardRef);
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+      transition={{ duration: 0.5, delay: index * 0.05 }}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+      whileTap={{ scale: 0.95 }}
+      className="group"
+    >
+      <motion.div
+        style={{ transformStyle: "preserve-3d" }}
+        className="bg-white rounded-2xl p-6 shadow-md hover:shadow-[0_0_30px_rgba(217,4,41,0.2)] transition-all duration-300 border border-gray-100"
+      >
+        <motion.div
+          style={{ transform: "translateZ(50px)" }}
+          className={`w-14 h-14 bg-gradient-to-br ${item.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+        >
+          <item.icon size={28} className="text-white" />
+        </motion.div>
+        <div className="text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">
+          {item.label}
+        </div>
+        <div className="text-base sm:text-lg font-bold text-[#111111]">{item.value}</div>
+      </motion.div>
+    </motion.div>
+  );
+}
 
 export function InfoSection() {
   const { ref, isInView } = useInView();
@@ -70,25 +109,9 @@ export function InfoSection() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" style={{ perspective: "1000px" }}>
           {info.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
-              className="group"
-            >
-              <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-[0_0_30px_rgba(217,4,41,0.2)] transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
-                <div className={`w-14 h-14 bg-gradient-to-br ${item.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <item.icon size={28} className="text-white" />
-                </div>
-                <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">
-                  {item.label}
-                </div>
-                <div className="text-lg font-bold text-[#111111]">{item.value}</div>
-              </div>
-            </motion.div>
+            <InfoCard key={index} item={item} index={index} isInView={isInView} />
           ))}
         </div>
       </div>

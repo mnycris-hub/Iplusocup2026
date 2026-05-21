@@ -10,12 +10,8 @@ export function RegistrationSection() {
     course: "",
     contact: "",
     teamName: "",
-    player1: "",
-    player2: "",
-    player3: "",
-    player4: "",
-    player5: "",
     registrationType: "individual",
+    players: ["", "", "", "", ""],
   });
   const [submitted, setSubmitted] = useState(false);
 
@@ -31,12 +27,8 @@ export function RegistrationSection() {
         course: "",
         contact: "",
         teamName: "",
-        player1: "",
-        player2: "",
-        player3: "",
-        player4: "",
-        player5: "",
         registrationType: "individual",
+        players: ["", "", "", "", ""],
       });
     }, 3000);
   };
@@ -45,6 +37,15 @@ export function RegistrationSection() {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handlePlayerChange = (index: number, value: string) => {
+    const newPlayers = [...formData.players];
+    newPlayers[index] = value;
+    setFormData({
+      ...formData,
+      players: newPlayers,
     });
   };
 
@@ -145,8 +146,16 @@ export function RegistrationSection() {
                   <label className="block text-sm font-semibold text-gray-700 mb-3">
                     Tipo de Inscrição *
                   </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <label className="relative cursor-pointer">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" style={{ perspective: "1000px" }}>
+                    <motion.label
+                      className="relative cursor-pointer"
+                      whileTap={{ scale: 0.95 }}
+                      animate={{
+                        rotateY: formData.registrationType === "individual" ? [0, 5, -5, 0] : 0,
+                      }}
+                      transition={{ duration: 0.5 }}
+                      style={{ transformStyle: "preserve-3d" }}
+                    >
                       <input
                         type="radio"
                         name="registrationType"
@@ -155,14 +164,25 @@ export function RegistrationSection() {
                         onChange={handleChange}
                         className="peer sr-only"
                       />
-                      <div className="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-[#D90429] peer-checked:bg-[#D90429]/5 transition-all duration-200">
+                      <motion.div
+                        style={{ transformStyle: "preserve-3d" }}
+                        className="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-[#D90429] peer-checked:bg-[#D90429]/5 transition-all duration-200 shadow-md"
+                      >
                         <div className="font-semibold text-gray-900">Individual</div>
                         <div className="text-sm text-gray-600 mt-1">
                           Serás integrado numa equipa
                         </div>
-                      </div>
-                    </label>
-                    <label className="relative cursor-pointer">
+                      </motion.div>
+                    </motion.label>
+                    <motion.label
+                      className="relative cursor-pointer"
+                      whileTap={{ scale: 0.95 }}
+                      animate={{
+                        rotateY: formData.registrationType === "team" ? [0, 5, -5, 0] : 0,
+                      }}
+                      transition={{ duration: 0.5 }}
+                      style={{ transformStyle: "preserve-3d" }}
+                    >
                       <input
                         type="radio"
                         name="registrationType"
@@ -171,19 +191,22 @@ export function RegistrationSection() {
                         onChange={handleChange}
                         className="peer sr-only"
                       />
-                      <div className="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-[#D90429] peer-checked:bg-[#D90429]/5 transition-all duration-200">
+                      <motion.div
+                        style={{ transformStyle: "preserve-3d" }}
+                        className="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-[#D90429] peer-checked:bg-[#D90429]/5 transition-all duration-200 shadow-md"
+                      >
                         <div className="font-semibold text-gray-900">Equipa</div>
                         <div className="text-sm text-gray-600 mt-1">
                           Tens a tua equipa formada
                         </div>
-                      </div>
-                    </label>
+                      </motion.div>
+                    </motion.label>
                   </div>
                 </div>
 
                 {/* Nome da Equipa (conditional) */}
                 {formData.registrationType === "team" && (
-                  <div className="space-y-6">
+                  <>
                     <div>
                       <label htmlFor="teamName" className="block text-sm font-semibold text-gray-700 mb-2">
                         Nome da Equipa *
@@ -200,36 +223,50 @@ export function RegistrationSection() {
                       />
                     </div>
 
-                    <div>
-                      <p className="block text-sm font-semibold text-gray-700 mb-3">
-                        Nome dos 5 Jogadores *
-                      </p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {[1, 2, 3, 4, 5].map((playerNumber) => (
-                          <input
-                            key={playerNumber}
-                            type="text"
-                            id={`player${playerNumber}`}
-                            name={`player${playerNumber}`}
-                            required={formData.registrationType === "team"}
-                            value={formData[`player${playerNumber}` as keyof typeof formData]}
-                            onChange={handleChange}
-                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#D90429] focus:ring-4 focus:ring-[#D90429]/20 outline-none transition-all duration-200"
-                            placeholder={`Jogador ${playerNumber}`}
-                          />
+                    {/* Jogadores da Equipa */}
+                    <div className="border-2 border-[#D90429]/20 rounded-lg p-6 bg-gradient-to-br from-[#D90429]/5 to-transparent">
+                      <h3 className="text-lg font-bold text-gray-900 mb-4">
+                        Jogadores da Equipa (5 jogadores) *
+                      </h3>
+                      <div className="space-y-4">
+                        {formData.players.map((player, index) => (
+                          <div key={index}>
+                            <label
+                              htmlFor={`player-${index}`}
+                              className="block text-sm font-semibold text-gray-700 mb-2"
+                            >
+                              Jogador {index + 1} *
+                            </label>
+                            <input
+                              type="text"
+                              id={`player-${index}`}
+                              required={formData.registrationType === "team"}
+                              value={player}
+                              onChange={(e) => handlePlayerChange(index, e.target.value)}
+                              className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#D90429] focus:ring-4 focus:ring-[#D90429]/20 outline-none transition-all duration-200"
+                              placeholder={`Nome do jogador ${index + 1}`}
+                            />
+                          </div>
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </>
                 )}
 
                 {/* Submit Button */}
-                <button
-                  type="submit"
-                  className="w-full px-8 py-4 bg-gradient-to-r from-[#D90429] to-[#8D021F] text-white font-bold text-lg rounded-lg hover:shadow-[0_0_40px_rgba(217,4,41,0.5)] transition-all duration-300 transform hover:scale-[1.02]"
-                >
-                  ENVIAR INSCRIÇÃO
-                </button>
+                <div style={{ perspective: "1000px" }}>
+                  <motion.button
+                    type="submit"
+                    whileHover={{ scale: 1.05, rotateY: 3 }}
+                    whileTap={{ scale: 0.95 }}
+                    style={{ transformStyle: "preserve-3d" }}
+                    className="w-full px-8 py-4 bg-gradient-to-r from-[#D90429] to-[#8D021F] text-white font-bold text-lg rounded-lg shadow-[0_0_40px_rgba(217,4,41,0.5)] transition-all duration-300"
+                  >
+                    <motion.span style={{ transform: "translateZ(10px)", display: "inline-block" }}>
+                      ENVIAR INSCRIÇÃO
+                    </motion.span>
+                  </motion.button>
+                </div>
               </div>
             </form>
           )}

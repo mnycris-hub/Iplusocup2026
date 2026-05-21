@@ -33,4 +33,10 @@ export default defineConfig({
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv'],
+
+  // GitHub Pages configuration
+  // IMPORTANTE: Ajusta o 'base' para o nome do teu repositório GitHub
+  // Se o repo for "ipluso-cup-2026", usa: base: '/ipluso-cup-2026/'
+  // Se usares custom domain, deixa: base: '/'
+  base: '/ipluso-cup-2026/',
 })

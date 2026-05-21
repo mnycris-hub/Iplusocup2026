@@ -54,7 +54,7 @@ export function ScheduleSection() {
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-[#111111] mb-6">
             Horário do <span className="text-[#D90429]">Evento</span>
           </h2>
-          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="hidden sm:block text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
             Planeia o teu dia e não percas nenhum momento desta experiência única.
           </p>
         </motion.div>
@@ -77,11 +77,11 @@ export function ScheduleSection() {
                 {/* Content */}
                 <div className={`flex-1 ${index % 2 === 0 ? "md:text-right" : "md:text-left"}`}>
                   <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-[0_0_30px_rgba(217,4,41,0.2)] transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
-                    <div className="text-sm font-bold text-[#D90429] uppercase tracking-wider mb-2">
+                    <div className="text-xs sm:text-sm font-bold text-[#D90429] uppercase tracking-wider mb-2">
                       {item.time}
                     </div>
-                    <h3 className="text-xl font-bold text-[#111111] mb-2">{item.title}</h3>
-                    <p className="text-gray-600">{item.description}</p>
+                    <h3 className="text-lg sm:text-xl font-bold text-[#111111] mb-2">{item.title}</h3>
+                    <p className="text-sm sm:text-base text-gray-600">{item.description}</p>
                   </div>
                 </div>
 

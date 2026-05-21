@@ -51,28 +51,36 @@ export function FAQSection() {
           </p>
         </motion.div>
 
-        <div className="space-y-4">
+        <div className="space-y-4" style={{ perspective: "1000px" }}>
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 0, y: 20, rotateX: -10 }}
+              animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.05 }}
+              whileHover={{ scale: 1.02, rotateY: 2 }}
+              style={{ transformStyle: "preserve-3d" }}
             >
-              <button
+              <motion.button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full bg-white border-2 border-gray-100 rounded-2xl p-6 text-left hover:border-[#D90429] transition-all duration-300 group"
+                whileTap={{ scale: 0.98 }}
+                className="w-full bg-white border-2 border-gray-100 rounded-2xl p-6 text-left hover:border-[#D90429] transition-all duration-300 group shadow-lg"
+                style={{ transformStyle: "preserve-3d" }}
               >
                 <div className="flex justify-between items-center">
                   <h3 className="text-lg font-bold text-[#111111] group-hover:text-[#D90429] transition-colors pr-4">
                     {faq.question}
                   </h3>
-                  <ChevronDown
-                    size={24}
-                    className={`text-[#D90429] flex-shrink-0 transition-transform duration-300 ${
-                      openIndex === index ? "rotate-180" : ""
-                    }`}
-                  />
+                  <motion.div
+                    animate={{
+                      rotate: openIndex === index ? 180 : 0,
+                      scale: openIndex === index ? 1.2 : 1
+                    }}
+                    transition={{ duration: 0.3 }}
+                    style={{ transform: "translateZ(20px)" }}
+                  >
+                    <ChevronDown size={24} className="text-[#D90429] flex-shrink-0" />
+                  </motion.div>
                 </div>
                 <AnimatePresence>
                   {openIndex === index && (
@@ -87,7 +95,7 @@ export function FAQSection() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </button>
+              </motion.button>
             </motion.div>
           ))}
         </div>

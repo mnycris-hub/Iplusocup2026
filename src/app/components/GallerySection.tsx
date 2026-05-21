@@ -50,19 +50,22 @@ export function GallerySection() {
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-[#111111] mb-6">
             Revive os <span className="text-[#D90429]">melhores momentos</span>
           </h2>
-          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="hidden sm:block text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
             Fotos, vídeos e highlights dos jogos mais emocionantes do torneio.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" style={{ perspective: "1000px" }}>
           {images.map((image, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative aspect-square overflow-hidden rounded-2xl cursor-pointer"
+              initial={{ opacity: 0, scale: 0.8, rotateY: -20 }}
+              animate={isInView ? { opacity: 1, scale: 1, rotateY: 0 } : {}}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              whileHover={{ scale: 1.05, rotateY: 5, z: 50 }}
+              whileTap={{ scale: 0.95 }}
+              style={{ transformStyle: "preserve-3d" }}
+              className="group relative aspect-square overflow-hidden rounded-2xl cursor-pointer shadow-xl"
             >
               <img
                 src={image.url}
